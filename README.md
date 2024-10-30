@@ -27,9 +27,34 @@ Clone o repositório e instale as dependências:
   npm install
 ```
 ### 3. Configuração
-Configure o arquivo de conexão com o banco de dados na pasta db.
+1. Crie o Banco de Dados e a Tabela no terminal do PostgreSQL
+```bash
+  CREATE DATABASE nome_do_banco;
+
+  CREATE TABLE IF NOT EXISTS products (
+      id SERIAL PRIMARY KEY,
+      descrição TEXT NOT NULL,
+      preço NUMERIC(10, 2) NOT NULL,
+      estoque INT NOT NULL,
+      data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+```
+2. Crie um arquivo.env na raiz do projeto com a URL de conexão ao banco de dados
+```
+DATABASE_URL="postgresql://usuario_do_banco:senha_do_banco@localhost:5433/nome_do_banco"
+```
+Substitua usuario_do_banco, senha_do_banco, localhost, 5433 e nome_do_banco conforme a configuração do seu ambiente.
+
 ### 4. Execução
 ```bash
   npm start
 ```
 A API estará disponível em: http://localhost:3000
+
+## Endpoints
+- GET /produtos - Lista todos os produtos.
+- GET /produtos/:id - Retorna um produto específico pelo ID.
+- POST /produtos - Cria um novo produto.
+- PUT /produtos/:id - Atualiza um produto existente.
+- DELETE /produtos/:id - Exclui um produto.
+
