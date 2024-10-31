@@ -1,14 +1,18 @@
-const pool = require('../../db');
+const pool = require('../db');
 const queries = require('./queries');
 
+
+
 const getProduct = (req, res) => {
-    pool.query("SELECT * FROM produto", (error, results) => {
+    pool.query("SELECT * FROM produtos", (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Erro ao buscar produtos' });
         }
         res.status(200).json(results.rows);
     });
 };
+
+
 
 const getProductById = (req, res) => {
     const id = parseInt(req.params.id);
@@ -29,7 +33,7 @@ const getProductById = (req, res) => {
 const createProduct = (req, res) => {
     const { descrição, preço, estoque } = req.body;
     pool.query(
-        "INSERT INTO produto (descrição, preço, estoque) VALUES ($1, $2, $3) RETURNING id", 
+        "INSERT INTO produtos (descrição, preço, estoque) VALUES ($1, $2, $3) RETURNING id", 
         [descrição, preço, estoque], 
         (error, results) => {
             if (error) {
@@ -45,7 +49,7 @@ const updateProduct = (req, res) => {
     const { descrição, preço, estoque } = req.body;
 
     pool.query(
-        "UPDATE produto SET descrição = $1, preço = $2, estoque = $3 WHERE id = $4",
+        "UPDATE produtos SET descrição = $1, preço = $2, estoque = $3 WHERE id = $4",
         [descrição, preço, estoque, id],
         (error, results) => {
             if (error) {
@@ -62,7 +66,7 @@ const updateProduct = (req, res) => {
 
 const deleteProduct = (req, res) => {
     const id = parseInt(req.params.id);
-    pool.query("DELETE FROM produto WHERE id = $1", [id], (error, results) => {
+    pool.query("DELETE FROM produtos WHERE id = $1", [id], (error, results) => {
         if (error) {
             console.error("Erro ao deletar produto:", error);
             return res.status(500).json({ error: 'Erro ao deletar produto' });
