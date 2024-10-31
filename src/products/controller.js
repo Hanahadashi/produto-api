@@ -1,8 +1,6 @@
 const pool = require('../db');
 const queries = require('./queries');
 
-
-
 const getProduct = (req, res) => {
     pool.query("SELECT * FROM produtos", (error, results) => {
         if (error) {
@@ -11,8 +9,6 @@ const getProduct = (req, res) => {
         res.status(200).json(results.rows);
     });
 };
-
-
 
 const getProductById = (req, res) => {
     const id = parseInt(req.params.id);
@@ -31,10 +27,10 @@ const getProductById = (req, res) => {
 };
 
 const createProduct = (req, res) => {
-    const { descrição, preço, estoque } = req.body;
+    const { descricao, preco, estoque } = req.body;
     pool.query(
-        "INSERT INTO produtos (descrição, preço, estoque) VALUES ($1, $2, $3) RETURNING id", 
-        [descrição, preço, estoque], 
+        "INSERT INTO produtos (descricao, preco, estoque) VALUES ($1, $2, $3) RETURNING id", 
+        [descricao, preco, estoque], 
         (error, results) => {
             if (error) {
                 return res.status(500).json({ error: 'Erro ao criar produto' });
@@ -46,11 +42,11 @@ const createProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
     const id = parseInt(req.params.id);
-    const { descrição, preço, estoque } = req.body;
+    const { descricao, preco, estoque } = req.body;
 
     pool.query(
-        "UPDATE produtos SET descrição = $1, preço = $2, estoque = $3 WHERE id = $4",
-        [descrição, preço, estoque, id],
+        "UPDATE produtos SET descricao = $1, preco = $2, estoque = $3 WHERE id = $4",
+        [descricao, preco, estoque, id],
         (error, results) => {
             if (error) {
                 console.error("Erro ao atualizar produto:", error);
