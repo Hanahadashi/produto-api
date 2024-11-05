@@ -1,4 +1,4 @@
-INSERT INTO produtos (descricao, preco, quantidade) VALUES
+INSERT INTO produtos (description, price, quantity) VALUES
 ('Garrafa de Agua', 1.99, 100),
 ('Pao de Forma', 5.99, 50),
 ('Chocolate', 4.99, 30),

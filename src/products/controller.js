@@ -1,77 +1,82 @@
+// Controllers
 const pool = require('../db');
 const queries = require('./queries');
 
-const getProduct = (req, res) => {
-    pool.query("SELECT * FROM produtos", (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Erro ao buscar produtos' });
-        }
+const getProduct = async (req, res) => {
+    try {
+        const results = await pool.query(queries.getProducts);
         res.status(200).json(results.rows);
-    });
+    } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+        res.status(500).json({ error: 'Erro ao buscar produtos' });
+    }
 };
 
-const getProductById = (req, res) => {
+const getProductById = async (req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
         return res.status(400).json({ error: "ID inválido" });
     }
-    pool.query(queries.getProductById, [id], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Erro ao buscar produto' });
-        }
+    try {
+        const results = await pool.query(queries.getProductById, [id]);
         if (results.rows.length === 0) {
             return res.status(404).json({ error: 'Produto não encontrado' });
         }
         res.status(200).json(results.rows[0]);
-    });
+    } catch (error) {
+        console.error("Erro ao buscar produto:", error);
+        res.status(500).json({ error: 'Erro ao buscar produto' });
+    }
 };
 
-const createProduct = (req, res) => {
-    const { descricao, preco, estoque } = req.body;
-    pool.query(
-        "INSERT INTO produtos (descricao, preco, estoque) VALUES ($1, $2, $3) RETURNING id", 
-        [descricao, preco, estoque], 
-        (error, results) => {
-            if (error) {
-                return res.status(500).json({ error: 'Erro ao criar produto' });
-            }
-            res.status(201).json({ message: "Produto criado com sucesso", id: results.rows[0].id });
-        }
-    );
+const createProduct = async (req, res) => {
+    const { description, price, quantity } = req.body;
+    if (!description || price == null || quantity == null) {
+        return res.status(400).json({ error: "Todos os campos são obrigatórios" });
+    }
+    try {
+        const results = await pool.query(queries.createProduct, [description, price, quantity]);
+        res.status(201).json({ message: "Produto criado com sucesso", id: results.rows[0].id });
+    } catch (error) {
+        console.error("Erro ao criar produto:", error);
+        res.status(500).json({ error: 'Erro ao criar produto' });
+    }
 };
 
-const updateProduct = (req, res) => {
+const updateProduct = async (req, res) => {
     const id = parseInt(req.params.id);
-    const { descricao, preco, estoque } = req.body;
+    const { description, price, quantity } = req.body;
+    if (!description || price == null || quantity == null) {
+        return res.status(400).json({ error: "Todos os campos são obrigatórios" });
+    }
 
-    pool.query(
-        "UPDATE produtos SET descricao = $1, preco = $2, estoque = $3 WHERE id = $4",
-        [descricao, preco, estoque, id],
-        (error, results) => {
-            if (error) {
-                console.error("Erro ao atualizar produto:", error);
-                return res.status(500).json({ error: 'Erro ao atualizar produto' });
-            }
-            if (results.rowCount === 0) {
-                return res.status(404).json({ error: 'Produto não encontrado' });
-            }
-            res.status(200).json({ message: `Produto com ID: ${id} atualizado com sucesso` });
+    try {
+        const results = await pool.query(queries.updateProduct, [description, price, quantity, id]);
+        if (results.rowCount === 0) {
+            return res.status(404).json({ error: 'Produto não encontrado' });
         }
-    );
+        res.status(200).json({ message: `Produto com ID: ${id} atualizado com sucesso` });
+    } catch (error) {
+        console.error("Erro ao atualizar produto:", error);
+        res.status(500).json({ error: 'Erro ao atualizar produto' });
+    }
 };
 
-const deleteProduct = (req, res) => {
+const deleteProduct = async (req, res) => {
     const id = parseInt(req.params.id);
-    pool.query("DELETE FROM produtos WHERE id = $1", [id], (error, results) => {
-        if (error) {
-            console.error("Erro ao deletar produto:", error);
-            return res.status(500).json({ error: 'Erro ao deletar produto' });
-        }
+    if (isNaN(id)) {
+        return res.status(400).json({ error: "ID inválido" });
+    }
+    try {
+        const results = await pool.query(queries.deleteProduct, [id]);
         if (results.rowCount === 0) {
             return res.status(404).json({ error: 'Produto não encontrado' });
         }
         res.status(200).json({ message: `Produto deletado com sucesso, ID: ${id}` });
-    });
+    } catch (error) {
+        console.error("Erro ao deletar produto:", error);
+        res.status(500).json({ error: 'Erro ao deletar produto' });
+    }
 };
 
 module.exports = {

@@ -1,7 +1,9 @@
-CREATE TABLE IF NOT EXISTS produtos (
+DROP TABLE IF EXISTS produtos;
+
+CREATE TABLE produtos (
     id SERIAL PRIMARY KEY,
-    descricao VARCHAR(255) NOT NULL,
-    preco NUMERIC(10, 2) NOT NULL,
-    quantidade INTEGER NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    price NUMERIC(10, 2) NOT NULL,
+    quantity INTEGER NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

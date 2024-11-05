@@ -1,8 +1,10 @@
-const express = require("express")
-const productRoutes = require("./products/routes")
+const express = require("express");
+const cors = require("cors"); // Importe o pacote CORS
+const productRoutes = require("./products/routes");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use('/produtos', productRoutes);
 
