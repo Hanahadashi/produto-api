@@ -36,6 +36,7 @@ PGDATABASE=postgres
 PGPASSWORD=root
 PGPORT=5432
 ```
+Certifique-se de que esses valores correspondem às configurações do seu banco de dados PostgreSQL.
 
 ### 4. Execução
 ```bash
