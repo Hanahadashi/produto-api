@@ -27,23 +27,15 @@ Clone o repositório e instale as dependências:
   npm install
 ```
 ### 3. Configuração
-1. Crie o Banco de Dados e a Tabela no terminal do PostgreSQL
-```bash
-  CREATE DATABASE nome_do_banco;
-
-  CREATE TABLE IF NOT EXISTS products (
-      id SERIAL PRIMARY KEY,
-      description TEXT NOT NULL,
-      price NUMERIC(10, 2) NOT NULL,
-      quantity INT NOT NULL,
-      data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+1. Crie um arquivo.env na raiz do projeto com os dados do banco de dados
+exemplo:
 ```
-2. Crie um arquivo.env na raiz do projeto com a URL de conexão ao banco de dados
+PGUSER=postgres
+PGHOST=localhost
+PGDATABASE=postgres
+PGPASSWORD=root
+PGPORT=5432
 ```
-DATABASE_URL="postgresql://usuario_do_banco:senha_do_banco@localhost:5433/nome_do_banco"
-```
-Substitua usuario_do_banco, senha_do_banco, localhost, 5433 e nome_do_banco conforme a configuração do seu ambiente.
 
 ### 4. Execução
 ```bash
