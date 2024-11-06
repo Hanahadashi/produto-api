@@ -33,9 +33,9 @@ Clone o repositório e instale as dependências:
 
   CREATE TABLE IF NOT EXISTS products (
       id SERIAL PRIMARY KEY,
-      descrição TEXT NOT NULL,
-      preço NUMERIC(10, 2) NOT NULL,
-      estoque INT NOT NULL,
+      description TEXT NOT NULL,
+      price NUMERIC(10, 2) NOT NULL,
+      quantity INT NOT NULL,
       data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 ```
