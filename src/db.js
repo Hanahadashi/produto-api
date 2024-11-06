@@ -23,11 +23,10 @@ const runScript = async (filePath) => {
 };
 
 const runAllScripts = async () => {
-    // Execute os scripts na ordem correta
     await runScript('sql/createtable.sql');
     await runScript('sql/seed.sql');
 };
 
 runAllScripts();
 
-module.exports = pool; // Exporte o pool
+module.exports = pool;
