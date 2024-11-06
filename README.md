@@ -36,8 +36,8 @@ PGDATABASE=postgres
 PGPASSWORD=root
 PGPORT=5432
 ```
-Certifique-se de que esses valores correspondem às configurações do seu banco de dados PostgreSQL.
-
+- Certifique-se de que esses valores correspondem às configurações do seu banco de dados PostgreSQL.
+- O arquivo db.js cuida da criação da tabela produtos e da inserção dos dados iniciais ao rodar o projeto. Não é necessário executar scripts SQL manualmente.
 ### 4. Execução
 ```bash
   npm run dev
