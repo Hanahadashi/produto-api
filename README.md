@@ -47,7 +47,7 @@ Substitua usuario_do_banco, senha_do_banco, localhost, 5433 e nome_do_banco conf
 
 ### 4. Execução
 ```bash
-  npm start
+  npm run dev
 ```
 A API estará disponível em: http://localhost:3000
 
